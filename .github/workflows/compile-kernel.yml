@@ -13,11 +13,12 @@ on:
       kernel_source:
         description: "Select the kernel source"
         required: false
-        default: "unifreq"
+        default: "NanoArmStation"
         type: choice
         options:
           - unifreq
           - ophub
+          - NanoArmStation
       kernel_version:
         description: "Select kernel version"
         required: false
@@ -77,11 +78,11 @@ on:
       kernel_sign:
         description: "Set the kernel custom signature"
         required: false
-        default: "-ophub"
+        default: "-NanoArmStation"
         type: choice
         options:
           - -ophub
-          - -yourname
+          - -NanoArmStation
 
 env:
   TZ: Etc/UTC
@@ -89,7 +90,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-24.04-arm
-    if: ${{ github.event.repository.owner.id == github.event.sender.id }}
+    # if: ${{ github.event.repository.owner.id == github.event.sender.id }}
 
     steps:
       - name: Checkout
@@ -165,7 +166,7 @@ jobs:
             kernel-${{ inputs.kernel_toolchain }}-${{ inputs.kernel_version }}-
 
       - name: Compile the kernel [ ${{ inputs.kernel_version }} ]
-        uses: ophub/amlogic-s9xxx-armbian@main
+        uses: NanoArmStation/amlogic-s9xxx-armbian@main
         if: ${{ steps.disk.outputs.status == 'success' && !cancelled() }}
         with:
           build_target: kernel
